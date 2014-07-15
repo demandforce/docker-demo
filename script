@@ -1,0 +1,61 @@
+# Build demo1
+docker build -t consumer/nginx:latest demo1
+
+# Show images
+docker images
+
+# Run demo1
+docker run -d -p 8080:80 consumer/nginx
+
+# Run ps
+docker ps
+
+# Copy URL to hit demo1 webserver
+open `echo -n http://$(boot2docker ip 2>/dev/null | awk '{print $NF}'):8080`
+
+# Change URL path to something that doesn't exist
+
+# Stop docker container
+docker stop $(docker ps | grep -v CONTAINER | awk '{print $1}')
+
+# Remove the docker container
+docker rm $(docker ps -a | grep -v CONTAINER | awk '{print $1}')
+
+# Show differences between demo1 and demo2
+ksdiff demo1 demo2
+
+# Build demo2
+docker build -t consumer/nginx:latest demo2
+
+# Show images, explain caching
+docker images
+
+# Remove obsolete images
+docker rmi $(docker images | grep "<none> | awk '{print $3}'")
+
+# Run demo2
+docker run -d -p 8080:80 consumer/nginx
+
+# Stop/Remove all docker containers
+export PID=$(docker ps -a | grep -v CONTAINER | awk '{print $1}') && docker stop $PID && docker rm $PID
+
+# Open the registry
+open https://registry.hub.docker.com/
+
+# Show differences between demo2 and demo3
+ksdiff demo2 demo3
+
+# Build demo3
+docker build -t consumer/nginx:latest demo3
+
+# Run demo3
+docker run -d -p 8080:80 consumer/nginx
+
+# Stop/Remove all docker containers
+export PID=$(docker ps -a | grep -v CONTAINER | awk '{print $1}') && docker stop $PID && docker rm $PID
+
+
+
+
+# POST DEMO: Clean up all docker images
+docker images | grep -v REPOSITORY | awk '{print $3}' | xargs docker rmi

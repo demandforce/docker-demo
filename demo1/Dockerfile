@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y nginx
 
 ADD html /usr/share/nginx/html
 ADD nginx.conf /etc/nginx/nginx.conf
+ADD sites-available/default /etc/nginx/sites-available/default
 
 EXPOSE 80
 
