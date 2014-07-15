@@ -41,6 +41,7 @@ export PID=$(docker ps -a | grep -v CONTAINER | awk '{print $1}') && docker stop
 
 # Open the registry
 open https://registry.hub.docker.com/
+docker search nginx | more
 
 # Show differences between demo2 and demo3
 ksdiff demo2 demo3
