@@ -10,6 +10,9 @@ docker run -d -p 8080:80 consumer/nginx
 # Run ps
 docker ps
 
+# Tail the logs
+docker logs -f
+
 # Copy URL to hit demo1 webserver
 open `echo -n http://$(boot2docker ip 2>/dev/null | awk '{print $NF}'):8080`
 
@@ -31,7 +34,7 @@ docker build -t consumer/nginx:latest demo2
 docker images
 
 # Remove obsolete images
-docker rmi $(docker images | grep "<none> | awk '{print $3}'")
+docker rmi $(docker images | grep "<none>" | awk '{print $3}')
 
 # Run demo2
 docker run -d -p 8080:80 consumer/nginx
